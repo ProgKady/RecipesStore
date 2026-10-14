@@ -1,134 +1,463 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=3,user-scalable=yes" />
-  <title>متجر التطبيق — RECETA</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>RECETA — تحميل التطبيق</title>
+<meta name="description" content="RECETA — تطبيق عرض ريسيبي الغسيل وإرسال التعديلات — TC Garments">
+<meta name="theme-color" content="#0b0f17">
+<link rel="icon" href="./hrrr.png">
+<link rel="apple-touch-icon" href="./hrrr.png">
 
-  <!-- Cairo font -->
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" referrerpolicy="no-referrer">
 
-  <style>
-    :root{
-      --bg:#0f0b0b;
-      --card:#140909;
-      --accent:#b30021;
-      --accent-2:#ff2b2b;
-      --glow: rgba(179,0,33,0.18);
-      --muted:#bfb6b6;
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    html, body{height:100%; font-family:"Cairo",sans-serif; background:var(--bg); color:#fff;}
-    body{display:flex; flex-direction:column;}
+<style>
+:root{
+  --brand:#ff2e63;
+  --brand-2:#ff7a45;
+  --primary:#6d5efc;
+  --ok:#22c55e;
+  --bg:#0b0f17;
+  --card:rgba(255,255,255,.06);
+  --stroke:rgba(255,255,255,.12);
+  --txt:#eaf0ff;
+  --muted:#9aa8c7;
+  --r:20px;
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-bot:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: light){
+  :root{
+    --bg:#eef2f9; --card:rgba(255,255,255,.78); --stroke:rgba(15,23,42,.1);
+    --txt:#0f172a; --muted:#5b6b8c;
+  }
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+html,body{height:100%}
+body{
+  font-family:'Cairo',system-ui,'Segoe UI',sans-serif;
+  background:var(--bg); color:var(--txt);
+  min-height:100dvh;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
 
-    /* ---------- HERO ---------- */
-    .hero{
-      display:flex; flex-direction:column; align-items:center; justify-content:center;
-      padding:16px; gap:14px; flex-shrink:0;
-      background:linear-gradient(180deg,#070406 0%, #120607 50%, #1a0708 100%);
-      width:100%;
-    }
-    .hero-left { display:flex; flex-direction:column; align-items:center; gap:12px; max-width:360px; text-align:center;}
-    .app-badge{display:flex; flex-direction:column; align-items:center; gap:12px;}
-    .app-logo{width:90px;height:90px;border-radius:20px; object-fit:cover; box-shadow:0 0 15px rgba(255,0,0,0.4); transition: transform .3s ease;}
-    .app-logo:hover{transform:scale(1.05); box-shadow:0 0 25px rgba(255,0,0,0.7);}
-    .app-name{font-size:22px; font-weight:800;}
-    .app-sub{color:var(--muted); font-size:13px; line-height:1.5;}
+.blob{position:fixed;width:48vmax;height:48vmax;border-radius:50%;filter:blur(80px);
+      opacity:.38;z-index:-1;pointer-events:none;will-change:transform}
+.b1{background:var(--brand); top:-16vmax;inset-inline-end:-14vmax;animation:f1 18s ease-in-out infinite}
+.b2{background:var(--primary); bottom:-18vmax;inset-inline-start:-12vmax;animation:f2 22s ease-in-out infinite}
+.b3{background:var(--brand-2); top:40%;inset-inline-start:35%;opacity:.22;animation:f3 26s ease-in-out infinite}
+@keyframes f1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-6vmax,8vmax) scale(1.12)}}
+@keyframes f2{0%,100%{transform:translate(0,0) scale(1.05)}50%{transform:translate(7vmax,-6vmax) scale(.9)}}
+@keyframes f3{0%,100%{transform:translate(0,0)}50%{transform:translate(-8vmax,-5vmax)}}
+@media (prefers-reduced-motion: reduce){
+  .blob{animation:none}
+  *{animation-duration:.01ms !important;transition-duration:.01ms !important}
+}
 
-    .cta-row{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:8px;}
-    .btn {background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:#fff; border:none; padding:8px 14px; border-radius:12px; cursor:pointer; font-weight:700; transition:transform .18s ease;}
-    .btn:hover{transform:translateY(-3px);}
-    .btn.secondary{background:linear-gradient(90deg,#444,#222);}
-    
-    /* ---------- CONTENT ---------- */
-    main.content{display:flex; flex-direction:column; align-items:center; flex-grow:1; padding:12px; gap:12px; width:100%;}
-    .card{background:var(--card); padding:14px; border-radius:12px; width:100%; max-width:360px; text-align:right;}
-    h3.section{color:#ffdede; font-weight:700; margin-bottom:6px;}
-    p.lead{color:#e9d1d1; font-size:14px; margin-bottom:8px;}
-    .features{display:flex; flex-wrap:wrap; gap:8px;}
-    .feature{flex:1 1 45%; background:rgba(255,255,255,0.03); padding:8px; border-radius:8px; display:flex; gap:6px; align-items:center;}
-    .feature .ico{width:28px;height:28px; display:flex; align-items:center; justify-content:center;}
+.topbar{
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:calc(10px + var(--safe-top)) 16px 10px;
+  background:rgba(11,15,23,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--stroke);
+}
+.topbar .brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.05em}
+.topbar .brand img{width:34px;height:34px;border-radius:10px;object-fit:cover;
+  border:1.5px solid rgba(255,255,255,.15)}
+.topbar .brand span{
+  background:linear-gradient(90deg,var(--brand),var(--brand-2));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.top-actions{display:flex;gap:8px;align-items:center}
+.chip-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 14px;border-radius:999px;border:1px solid var(--stroke);
+  background:rgba(255,255,255,.06);color:var(--txt);
+  font-family:inherit;font-size:12.5px;font-weight:800;cursor:pointer;
+  text-decoration:none;transition:.2s;
+}
+.chip-btn:hover{border-color:var(--brand);transform:translateY(-1px)}
+.chip-btn.primary{
+  background:linear-gradient(135deg,var(--brand),var(--brand-2));
+  border-color:transparent;color:#fff;
+  box-shadow:0 8px 22px rgba(255,46,99,.32);
+}
+.chip-btn.primary:hover{filter:brightness(1.08)}
 
-    /* carousel */
-    .carousel{display:flex; gap:6px; overflow-x:auto; padding:6px;}
-    .shot{min-width:80px;height:140px; border-radius:8px; overflow:hidden; flex-shrink:0;}
-    .shot img{width:100%; height:100%; object-fit:cover; display:block; cursor:zoom-in;}
+.hero{
+  max-width:560px;margin:0 auto;
+  padding:36px 18px 28px;text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:18px;
+}
+.logo-wrap{position:relative;width:112px;height:112px}
+.logo-wrap::before{
+  content:'';position:absolute;inset:-8px;border-radius:32px;
+  background:linear-gradient(135deg,var(--brand),var(--primary));
+  opacity:.45;filter:blur(16px);z-index:-1;
+}
+.logo-wrap img{
+  width:112px;height:112px;border-radius:28px;object-fit:cover;
+  border:3px solid rgba(255,255,255,.18);
+  box-shadow:0 20px 50px rgba(255,46,99,.35);
+  animation:breathe 4.5s ease-in-out infinite;
+}
+@keyframes breathe{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-6px) scale(1.04)}}
 
-    /* video */
-    .video-container{position:relative; width:100%; padding-bottom:56.25%; border-radius:8px; overflow:hidden; margin:8px 0;}
-    .video-container iframe{position:absolute; width:100%; height:100%; top:0; left:0; border:none; border-radius:8px;}
+.badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 12px;border-radius:999px;
+  background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.35);
+  color:#4ade80;font-size:11.5px;font-weight:800;
+}
+.badge .dot{width:7px;height:7px;border-radius:50%;background:currentColor;
+  box-shadow:0 0 8px currentColor;animation:blink 1.6s ease-in-out infinite}
+@keyframes blink{50%{opacity:.35}}
 
-    /* footer */
-    footer.app-footer{padding:12px; text-align:center; font-size:13px; color:var(--muted); flex-shrink:0;}
+h1{
+  font-size:clamp(1.55em,5vw,2.1em);font-weight:900;line-height:1.25;
+  letter-spacing:-.2px;
+}
+h1 em{
+  font-style:normal;
+  background:linear-gradient(90deg,var(--brand),var(--brand-2),var(--primary));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.lead{color:var(--muted);font-size:15px;line-height:1.85;max-width:420px}
 
-    /* lightbox */
-    .lightbox{position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.8); z-index:9999;}
-    .lightbox.show{display:flex;}
-    .lightbox img{max-width:92%; max-height:88%; border-radius:10px; box-shadow:0 12px 40px rgba(0,0,0,0.6);}
-    
-    /* scroll behavior for carousel */
-    .carousel::-webkit-scrollbar{height:6px;}
-    .carousel::-webkit-scrollbar-thumb{background:var(--accent); border-radius:3px;}
-  </style>
+.cta-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:4px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  padding:14px 22px;border:0;border-radius:14px;
+  font-family:inherit;font-size:15px;font-weight:900;cursor:pointer;
+  text-decoration:none;color:#fff;
+  background:linear-gradient(135deg,var(--brand),var(--brand-2));
+  box-shadow:0 12px 32px rgba(255,46,99,.34);
+  transition:transform .18s, box-shadow .25s, filter .2s;
+}
+.btn:hover{transform:translateY(-3px);box-shadow:0 18px 42px rgba(255,46,99,.48)}
+.btn:active{transform:translateY(0) scale(.98)}
+.btn i{font-size:1.15em}
+.btn.ghost{
+  background:rgba(255,255,255,.06);border:1px solid var(--stroke);
+  color:var(--txt);box-shadow:none;
+}
+.btn.ghost:hover{border-color:var(--brand);box-shadow:0 8px 24px rgba(0,0,0,.2)}
+
+.meta-row{
+  display:flex;flex-wrap:wrap;gap:14px;justify-content:center;
+  margin-top:6px;font-size:12.5px;font-weight:700;color:var(--muted);
+}
+.meta-row span{display:inline-flex;align-items:center;gap:6px}
+.meta-row i{color:var(--brand);font-size:.95em}
+
+.wrap{max-width:560px;margin:0 auto;padding:0 16px 40px;display:flex;flex-direction:column;gap:16px}
+
+.card{
+  background:var(--card);
+  backdrop-filter:blur(22px) saturate(150%);
+  -webkit-backdrop-filter:blur(22px) saturate(150%);
+  border:1px solid var(--stroke);
+  border-radius:var(--r);
+  padding:22px 18px;
+  box-shadow:0 16px 48px rgba(0,0,0,.22);
+  animation:rise .5s cubic-bezier(.2,.9,.25,1) both;
+}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+.card h2{
+  font-size:1.12em;font-weight:900;margin-bottom:12px;
+  display:flex;align-items:center;gap:10px;
+}
+.card h2 .ico{
+  width:34px;height:34px;border-radius:11px;
+  display:grid;place-items:center;font-size:.95em;color:#fff;
+  background:linear-gradient(135deg,var(--brand),var(--primary));
+  box-shadow:0 8px 18px rgba(109,94,252,.28);
+  flex-shrink:0;
+}
+.card p{color:var(--muted);font-size:13.5px;line-height:1.85}
+
+.features{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+.feature{
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--stroke);
+  border-radius:14px;padding:14px 12px;
+  display:flex;flex-direction:column;gap:8px;
+  transition:border-color .22s, transform .22s;
+}
+.feature:hover{border-color:rgba(255,46,99,.4);transform:translateY(-2px)}
+.feature .f-ico{
+  width:36px;height:36px;border-radius:11px;
+  display:grid;place-items:center;font-size:1em;
+  background:rgba(255,46,99,.12);color:var(--brand);
+}
+.feature h3{font-size:13.5px;font-weight:800}
+.feature p{font-size:11.5px;line-height:1.65;color:var(--muted)}
+
+.steps{display:flex;flex-direction:column;gap:12px;margin-top:4px}
+.step{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:12px;border-radius:14px;
+  background:rgba(255,255,255,.03);border:1px solid var(--stroke);
+}
+.step .num{
+  width:32px;height:32px;border-radius:10px;flex-shrink:0;
+  display:grid;place-items:center;font-weight:900;font-size:14px;color:#fff;
+  background:linear-gradient(135deg,var(--brand),var(--brand-2));
+}
+.step h3{font-size:13.5px;font-weight:800;margin-bottom:2px}
+.step p{font-size:12px;color:var(--muted);line-height:1.7}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:4px}
+.stat{
+  text-align:center;padding:14px 8px;border-radius:14px;
+  background:rgba(255,255,255,.04);border:1px solid var(--stroke);
+}
+.stat b{
+  display:block;font-size:1.35em;font-weight:900;
+  background:linear-gradient(90deg,var(--brand),var(--primary));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.stat span{font-size:11px;color:var(--muted);font-weight:700}
+
+.faq{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.faq details{
+  background:rgba(255,255,255,.04);border:1px solid var(--stroke);
+  border-radius:12px;padding:12px 14px;cursor:pointer;
+  transition:border-color .2s;
+}
+.faq details[open]{border-color:rgba(255,46,99,.35)}
+.faq summary{
+  font-weight:800;font-size:13.5px;list-style:none;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{
+  content:'\f078';font-family:'Font Awesome 6 Free';font-weight:900;
+  font-size:11px;color:var(--muted);transition:transform .2s;
+}
+.faq details[open] summary::after{transform:rotate(180deg)}
+.faq details p{margin-top:10px;font-size:12.5px;color:var(--muted);line-height:1.8}
+
+.download-card{
+  border:1px solid rgba(255,46,99,.35);
+  background:linear-gradient(160deg,rgba(255,46,99,.12),rgba(109,94,252,.08));
+  text-align:center;
+}
+.download-card .btn{width:100%;max-width:280px;margin:12px auto 0}
+.download-card .note{font-size:11.5px;color:var(--muted);margin-top:10px;line-height:1.7}
+
+footer{
+  text-align:center;padding:18px 16px calc(18px + var(--safe-bot));
+  border-top:1px solid var(--stroke);
+  font-size:12px;color:var(--muted);line-height:1.9;
+}
+footer a{color:var(--brand);text-decoration:none;font-weight:700}
+footer a:hover{text-decoration:underline}
+.wa{
+  display:inline-flex;align-items:center;gap:7px;
+  margin-top:8px;padding:9px 18px;border-radius:999px;
+  background:#25d366;color:#fff !important;text-decoration:none !important;
+  font-weight:800;font-size:12.5px;
+  box-shadow:0 8px 22px rgba(37,211,102,.3);transition:transform .2s;
+}
+.wa:active{transform:scale(.96)}
+
+@media (max-width:400px){
+  .features{grid-template-columns:1fr}
+  .hero{padding:28px 14px 20px}
+  .logo-wrap,.logo-wrap img{width:92px;height:92px}
+  .logo-wrap img{border-radius:22px}
+}
+</style>
 </head>
 <body>
 
-  <!-- HERO -->
-  <header class="hero">
-    <div class="hero-left">
-      <div class="app-badge">
-        <img src="hrrr.png" alt="TC Wasel Logo" class="app-logo">
-        <div class="app-name">RECETA</div>
-        <div class="app-sub">
-          تطبيق لعرض الريسيبي الخاصة بالغسيل مع امكانيه ارسال تعديل
-		  
-		   <hr>
-		   <br>
-		  
+<div class="blob b1" aria-hidden="true"></div>
+<div class="blob b2" aria-hidden="true"></div>
+<div class="blob b3" aria-hidden="true"></div>
+
+<nav class="topbar">
+  <div class="brand">
+    <img src="./hrrr.png" alt="RECETA" width="34" height="34">
+    <span>RECETA</span>
+  </div>
+  <div class="top-actions">
+    <a class="chip-btn" href="https://wa.me/201555266002" target="_blank" rel="noopener">
+      <i class="fab fa-whatsapp"></i> دعم
+    </a>
+    <a class="chip-btn primary" href="#download">
+      <i class="fas fa-download"></i> تحميل
+    </a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="logo-wrap">
+    <img src="./hrrr.png" alt="RECETA" width="112" height="112">
+  </div>
+  <div class="badge"><span class="dot"></span> متاح لأندرويد</div>
+  <h1>ريسيبي الغسيل<br>في <em>تطبيق واحد</em></h1>
+  <p class="lead">
+    RECETA بوابة TC Garments لعرض الريسيبي المشفّرة، البحث السريع،
+    وإرسال التعديلات مباشرة — بواجهة عربية/إنجليزية وتصميم حديث.
+  </p>
+  <div class="cta-row">
+    <a class="btn" href="https://www.mediafire.com/file/qe31qmg0hnbniv5/RECETA.apk/file" target="_blank" rel="noopener">
+      <i class="fab fa-android"></i> تحميل APK
+    </a>
+    <a class="btn ghost" href="#features">
+      <i class="fas fa-star"></i> المميزات
+    </a>
+  </div>
+  <div class="meta-row">
+    <span><i class="fas fa-shield-halved"></i> ملفات مشفّرة</span>
+    <span><i class="fas fa-globe"></i> عربي / English</span>
+    <span><i class="fas fa-bolt"></i> تحديث فوري</span>
+  </div>
+</section>
+
+<main class="wrap">
+
+  <div class="card">
+    <div class="stats">
+      <div class="stat"><b>PWA</b><span>يعمل أوفلاين</span></div>
+      <div class="stat"><b>AES</b><span>تشفير قوي</span></div>
+      <div class="stat"><b>2</b><span>لغات</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="ico"><i class="fas fa-circle-info"></i></span> عن التطبيق</h2>
+    <p>
+      RECETA مصمّم لفريق TC Garments: تسجّل دخولك، تفتح الريسيبي بعد كود التفعيل،
+      وتقدر ترسل أي تعديل أو صورة مباشرة للإدارة. الواجهة متجاوبة وتشتغل
+      كتطبيق ويب أو داخل WebView على أندرويد.
+    </p>
+  </div>
+
+  <div class="card" id="features">
+    <h2><span class="ico"><i class="fas fa-sparkles"></i></span> المميزات</h2>
+    <div class="features">
+      <div class="feature">
+        <div class="f-ico"><i class="fas fa-folder-open"></i></div>
+        <h3>تصفح الريسيبي</h3>
+        <p>مجلدات وملفات مع بحث سريع وتحديث من المصدر مباشرة.</p>
+      </div>
+      <div class="feature">
+        <div class="f-ico"><i class="fas fa-lock"></i></div>
+        <h3>حماية وتشفير</h3>
+        <p>ملفات .ks مشفّرة + كود تفعيل للجلسة + بوابة تسجيل دخول.</p>
+      </div>
+      <div class="feature">
+        <div class="f-ico"><i class="fas fa-paper-plane"></i></div>
+        <h3>إرسال تعديل</h3>
+        <p>ارفع صورة أو ملف ووصّلها للإدارة في ثوانٍ.</p>
+      </div>
+      <div class="feature">
+        <div class="f-ico"><i class="fas fa-database"></i></div>
+        <h3>عارض البيانات</h3>
+        <p>جداول SQLite مع فلاتر أعمدة وحفظ آخر اختياراتك.</p>
+      </div>
+      <div class="feature">
+        <div class="f-ico"><i class="fas fa-language"></i></div>
+        <h3>عربي + English</h3>
+        <p>تبديل فوري للغة واتجاه الصفحة (RTL / LTR).</p>
+      </div>
+      <div class="feature">
+        <div class="f-ico"><i class="fas fa-moon"></i></div>
+        <h3>وضع داكن/فاتح</h3>
+        <p>يتبع إعداد النظام تلقائياً مع تصميم زجاجي أنيق.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="ico"><i class="fas fa-mobile-screen"></i></span> طريقة التثبيت</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <div>
+          <h3>حمّل ملف APK</h3>
+          <p>اضغط زر التحميل واحفظ الملف على جهازك.</p>
         </div>
-        <div class="cta-row">
-          <button class="btn" onclick="window.location.href='https://www.mediafire.com/file/qe31qmg0hnbniv5/RECETA.apk/file'">تحميل للاندرويد ⬇️</button>
-        <!--  <button class="btn" onclick="window.location.href='https://progkady.github.io/RecipeBrowser/'">فتح التطبيق ويب</button> -->
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <div>
+          <h3>اسمح بالتثبيت من مصادر غير معروفة</h3>
+          <p>من إعدادات أندرويد → الأمان (مرة واحدة فقط للمتصفح اللي حُمّل منه الملف).</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <div>
+          <h3>ثبّت وسجّل دخول</h3>
+          <p>افتح التطبيق، أدخل اسمك والكود الخاص، وانتظر موافقة RECETA إن لزم.</p>
         </div>
       </div>
     </div>
-  </header>
+  </div>
 
-  <!-- MAIN CONTENT -->
-  <main class="content">
-    <div class="card">
-      <h3 class="section">عن التطبيق</h3>
-      <p class="lead">RECETA تطبيق لعرض الريسيبي الخاصة بالغسيل مع امكانيه ارسال تعديل</p>
-
-      <h3 class="section">المميزات</h3>
-      <div class="features">
-        <div class="feature"><div class="ico">💼</div><p>عرض الريسيبي لحظه بلحظة مع التحديث</p></div>
-        <div class="feature"><div class="ico">🔒</div><p>امكانية التصفح بسهولة ويسر</p></div>
-        <div class="feature"><div class="ico">⚡</div><p>امكانية ارسال تعديل الي احمد القاضي</p></div>
-      </div>
+  <div class="card">
+    <h2><span class="ico"><i class="fas fa-circle-question"></i></span> أسئلة شائعة</h2>
+    <div class="faq">
+      <details>
+        <summary>هل التطبيق مجاني؟</summary>
+        <p>نعم للاستخدام الداخلي لفريق TC Garments. الدخول يتطلب كود معتمد من الإدارة.</p>
+      </details>
+      <details>
+        <summary>لماذا يطلب كود تفعيل؟</summary>
+        <p>لحماية ملفات الريسيبي المشفّرة. الكود يُحفظ للجلسة الحالية فقط ويُمسح عند إغلاق التبويب.</p>
+      </details>
+      <details>
+        <summary>مفيش اتصال / فشل السيرفر؟</summary>
+        <p>تأكد من الإنترنت. لو استمرت المشكلة تواصل على واتساب الدعم الفني.</p>
+      </details>
+      <details>
+        <summary>هل يشتغل بدون تثبيت؟</summary>
+        <p>نعم عبر المتصفح كـ PWA، والتطبيق الأصلي يوفّر تجربة أوضح داخل WebView.</p>
+      </details>
     </div>
-  </main>
+  </div>
 
-  <!-- FOOTER -->
-  <footer class="app-footer">
-    &copy; 2026 Kadysoft — Ahmed Elkady ✨
-  </footer>
+  <div class="card download-card" id="download">
+    <h2 style="justify-content:center"><span class="ico"><i class="fas fa-download"></i></span> حمّل الآن</h2>
+    <p style="text-align:center">أحدث نسخة لأندرويد — ملف APK مباشر</p>
+    <a class="btn" href="https://www.mediafire.com/file/qe31qmg0hnbniv5/RECETA.apk/file" target="_blank" rel="noopener">
+      <i class="fab fa-android"></i> تحميل RECETA.apk
+    </a>
+    <p class="note">
+      بالتحميل أنت توافق على استخدام التطبيق لأغراض العمل داخل TC Garments فقط.
+    </p>
+  </div>
 
-  <!-- lightbox -->
-  <div class="lightbox" id="lightbox"><img id="lbImg"></div>
-  <script>
-    // lightbox click
-    document.querySelectorAll('.shot img').forEach(img=>{
-      img.addEventListener('click', e=>{
-        document.getElementById('lbImg').src = e.target.src;
-        document.getElementById('lightbox').classList.add('show');
-      });
-    });
-    document.getElementById('lightbox').addEventListener('click', ()=>document.getElementById('lightbox').classList.remove('show'));
-  </script>
+</main>
+
+<footer>
+  &copy; <span id="yr"></span>
+  <a href="https://facebook.com/kadinioo" target="_blank" rel="noopener">Ahmed Elkady — Kadysoft Ltd.</a><br>
+  <a class="wa" href="https://wa.me/201555266002" target="_blank" rel="noopener">
+    <i class="fab fa-whatsapp"></i> الدعم الفني (واتساب)
+  </a>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const id = a.getAttribute('href').slice(1);
+    const el = document.getElementById(id);
+    if (!el) return;
+    e.preventDefault();
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
 </body>
 </html>
-
-
-
-
